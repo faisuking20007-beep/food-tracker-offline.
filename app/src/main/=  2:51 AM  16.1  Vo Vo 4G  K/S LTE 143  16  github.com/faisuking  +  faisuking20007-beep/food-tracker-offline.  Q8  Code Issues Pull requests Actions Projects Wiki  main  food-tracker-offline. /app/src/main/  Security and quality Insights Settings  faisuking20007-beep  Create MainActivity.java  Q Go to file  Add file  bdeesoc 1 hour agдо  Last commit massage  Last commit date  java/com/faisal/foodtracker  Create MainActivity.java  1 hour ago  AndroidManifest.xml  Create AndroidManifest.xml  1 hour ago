@@ -1,0 +1,110 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#176b4d">
+<title>Food Tracker Offline</title>
+<style>
+:root{--green:#176b4d;--bg:#f3f6f4;--card:#fff;--muted:#66736c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font:15px system-ui,Arial;color:#17231d}
+header{background:var(--green);color:white;padding:20px 16px 18px}
+h1{font-size:22px;margin:0 0 5px}
+header p{margin:0;opacity:.9}
+.wrap{max-width:720px;margin:auto;padding:14px}
+.card{background:var(--card);border-radius:16px;padding:15px;margin:0 0 13px;box-shadow:0 2px 9px #102b1b0c}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:#edf5f0;border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-size:20px;color:var(--green)}
+.stat small{color:var(--muted)}
+label{display:block;font-weight:600;margin:10px 0 5px}
+input,select{width:100%;padding:12px;border:1px solid #ccd8d0;border-radius:10px;background:white;font:inherit}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.btn{border:0;background:var(--green);color:white;padding:12px 15px;border-radius:10px;font-weight:700;margin-top:12px;width:100%;font:inherit}
+.btn.secondary{background:#e7f0ea;color:var(--green)}
+.food{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid #edf0ed}
+.food:last-child{border:0}
+.food small{display:block;color:var(--muted)}
+.remove{border:0;background:#fff0ef;color:#a32c24;border-radius:8px;padding:6px 10px}
+h2{font-size:17px;margin:0 0 8px}
+.muted{color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<header>
+<h1>🥗 Food Tracker Offline</h1>
+<p>Track calories, protein, carbs and fats — no internet needed.</p>
+</header>
+
+<main class="wrap">
+<section class="card">
+<h2>Today's progress</h2>
+<div class="stats">
+<div class="stat"><b id="kcal">0</b><small>kcal eaten</small></div>
+<div class="stat"><b id="protein">0 g</b><small>protein</small></div>
+<div class="stat"><b id="remaining">2400</b><small>kcal left</small></div>
+</div>
+<p class="muted" id="goalText">Daily goals: 2400 kcal · 145 g protein</p>
+</section>
+
+<section class="card">
+<h2>Add food</h2>
+<label for="search">Search food</label>
+<input id="search" placeholder="Search roti, egg, chicken..." oninput="renderFoods()">
+<label for="category">Category</label>
+<select id="category" onchange="renderFoods()">
+<option value="All">All foods</option>
+<option>Grains & roti</option>
+<option>Protein</option>
+<option>Beans & pulses</option>
+<option>Dairy</option>
+<option>Fruit</option>
+<option>Vegetables</option>
+<option>Snacks</option>
+<option>Nuts & seeds</option>
+</select>
+<div id="foodChoices"></div>
+</section>
+
+<section class="card">
+<h2>Custom food</h2>
+<div class="row">
+<div><label>Name</label><input id="customName" placeholder="Food name"></div>
+<div><label>Weight (g)</label><input id="customWeight" type="number" min="1" value="100"></div>
+</div>
+<div class="row">
+<div><label>Calories / 100 g</label><input id="customKcal" type="number" min="0" value="100"></div>
+<div><label>Protein / 100 g</label><input id="customProtein" type="number" min="0" value="5"></div>
+</div>
+<div class="row">
+<div><label>Carbs / 100 g</label><input id="customCarbs" type="number" min="0" value="15"></div>
+<div><label>Fat / 100 g</label><input id="customFat" type="number" min="0" value="2"></div>
+</div>
+<button class="btn" onclick="addCustom()">Add custom food</button>
+</section>
+
+<section class="card">
+<h2>Today's diary</h2>
+<div id="diary"><p class="muted">No foods added yet.</p></div>
+<button class="btn secondary" onclick="exportData()">Export backup</button>
+<button class="btn secondary" onclick="document.getElementById('importFile').click()">Import backup</button>
+<input id="importFile" type="file" accept="application/json" hidden onchange="importData(event)">
+</section>
+
+<section class="card">
+<h2>Daily goals</h2>
+<div class="row">
+<div><label>Calories</label><input id="goalKcal" type="number" value="2400"></div>
+<div><label>Protein (g)</label><input id="goalProtein" type="number" value="145"></div>
+</div>
+<button class="btn" onclick="saveGoals()">Save goals</button>
+<button class="btn secondary" onclick="resetDay()">Clear today's diary</button>
+<p class="muted">Nutrition values are estimates. Weigh foods consistently and include cooking oil.</p>
+</section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
