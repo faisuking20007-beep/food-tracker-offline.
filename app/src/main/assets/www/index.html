@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Tracker</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 16px;
+  font-family: Arial, sans-serif;
+  background: #101827;
+  color: white;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+  color: #42e695;
+}
+
+h2 {
+  font-size: 19px;
+  margin-top: 24px;
+}
+
+.card {
+  background: #1d293b;
+  padding: 16px;
+  border-radius: 14px;
+  margin: 14px 0;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.stat {
+  background: #29384d;
+  padding: 14px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.stat strong {
+  display: block;
+  font-size: 23px;
+  color: #42e695;
+  margin-top: 7px;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 12px;
+  margin: 6px 0;
+  border: 0;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+input, select {
+  background: #34445a;
+  color: white;
+}
+
+button {
+  background: #42e695;
+  color: #102019;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.food-item, .diary-item {
+  background: #29384d;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+small {
+  color: #b8c5d6;
+}
+
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>🥗 Food Tracker</h1>
+<p style="text-align:center;color:#b8c5d6">
+Your daily calories and nutrition tracker
+</p>
+
+<div class="card">
+<h2>Today's Progress</h2>
+
+<div class="stats">
+<div class="stat">
+Calories
+<strong id="kcal">0</strong>
+<small>kcal consumed</small>
+</div>
+
+<div class="stat">
+Protein
+<strong id="protein">0 g</strong>
+<small>consumed</small>
+</div>
+
+<div class="stat">
+Remaining
+<strong id="remaining">2400</strong>
+<small>kcal</small>
+</div>
+
+<div class="stat">
+Daily Goal
+<strong id="goalText">2400</strong>
+<small>kcal</small>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h2>🔎 Search Pakistani Foods</h2>
+
+<input
+type="search"
+id="search"
+placeholder="Search food..."
+oninput="renderFoods()"
+>
+
+<select id="category" onchange="renderFoods()">
+<option value="all">All Categories</option>
+<option value="breakfast">Breakfast</option>
+<option value="rice">Rice</option>
+<option value="roti">Roti</option>
+<option value="meat">Meat</option>
+<option value="daal">Daal & Beans</option>
+<option value="fruits">Fruits</option>
+<option value="snacks">Snacks</option>
+<option value="drinks">Drinks</option>
+<option value="other">Other</option>
+</select>
+
+<div id="foodChoices"></div>
+</div>
+
+<div class="card">
+<h2>➕ Add Custom Food</h2>
+
+<input id="customName" placeholder="Food name">
+<input id="customCalories" type="number" placeholder="Calories per 100g">
+<input id="customProtein" type="number" placeholder="Protein per 100g">
+<input id="customCarbs" type="number" placeholder="Carbs per 100g">
+<input id="customFat" type="number" placeholder="Fat per 100g">
+
+<button onclick="addCustom()">Add Custom Food</button>
+</div>
+
+<div class="card">
+<h2>🍽️ Daily Diary</h2>
+<div id="diary"></div>
+
+<button onclick="exportData()">Export Backup</button>
+
+<input type="file" id="importFile" accept=".json">
+<button onclick="importData()">Import Backup</button>
+</div>
+
+<div class="card">
+<h2>⚙️ Daily Goals</h2>
+
+<label>Calorie Goal</label>
+<input id="goalKcal" type="number" value="2400">
+
+<label>Protein Goal (grams)</label>
+<input id="goalProtein" type="number" value="145">
+
+<button onclick="saveGoals()">Save Goals</button>
+<button onclick="resetDay()">Reset Day</button>
+</div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
